@@ -1,45 +1,48 @@
 import os
+import urllib.request as request
 import zipfile
+from src.utils import get_size
+from src.logger import logging
+from pathlib import Path
+from dataclasses import dataclass
 
-def extract_zip(zip_file_path, extract_to_folder):
-    if not os.path.exists(extract_to_folder):
-        os.makedirs(extract_to_folder)
+@dataclass
+class DataIngestionConfig:
+    root_dir: str = os.path.join("data")
+    source_URL: str = "https://github.com/entbappy/Branching-tutorial/raw/master/samsumdata.zip"
+    local_data_file: str = os.path.join(root_dir, "data.zip")
+    unzip_dir: str = os.path.join(root_dir)
 
+class DataIngestion:
+    def __init__(self, config: DataIngestionConfig): 
+        self.config = config
     
-    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(extract_to_folder)
+    def download_file(self): 
+        os.makedirs(self.config.root_dir, exist_ok=True)
+        if not os.path.exists(self.config.local_data_file):
+            filename, headers = request.urlretrieve(
+                url = self.config.source_URL,
+                filename = self.config.local_data_file
+            )
+            logging.info(f"{filename} download! with following info: \n{headers}")
+        else:
+            logging.info(f"File already exists of size: {get_size(Path(self.config.local_data_file))}")  
 
-    print(f"Extracted files to {extract_to_folder}")
+        
+    
+    def extract_zip_file(self):
+        """
+        zip_file_path: str
+        Extracts the zip file into the data directory
+        Function returns None
+        """
+        unzip_path = self.config.unzip_dir
+        os.makedirs(unzip_path, exist_ok=True)
+        with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
+            zip_ref.extractall(unzip_path)
 
-def save_files(extracted_folder, data_folder):
-    
-    if not os.path.exists(data_folder):
-        os.makedirs(data_folder)
-    
-    for file_name in os.listdir(extracted_folder):
-        full_file_name = os.path.join(extracted_folder, file_name)
-        if os.path.isfile(full_file_name):
-            os.rename(full_file_name, os.path.join(data_folder, file_name))
-    
-    print(f"Saved files to {data_folder}")
-
-def ingest_data(zip_file_path, data_folder):
-    extract_to_folder = "temp_extracted_files"
-    
-   
-    extract_zip(zip_file_path, extract_to_folder)
-    
-    
-    save_files(extract_to_folder, data_folder)
-    
-    
-    if os.path.exists(extract_to_folder):
-        os.rmdir(extract_to_folder)
-
-
-zip_file_path = 'data.zip'
-data_folder = 'data'
-ingest_data(zip_file_path, data_folder)
-
-
-
+if __name__ == '__main__':
+    config = DataIngestionConfig()
+    data_ingestion = DataIngestion(config) 
+    #data_ingestion.download_file()
+    data_ingestion.extract_zip_file() 
