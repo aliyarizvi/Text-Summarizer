@@ -5,19 +5,22 @@ import os
 from src.logger import logging
 from transformers import pipeline
 
-@dataclass
-class PredictionConfig:
-    model_path:str = os.path.join('data\pegasus-samsum-model') 
-    tokenizer_path:str = os.path.join('data\tokenizer')
+# @dataclass
+# class PredictionConfig:
+#     model_path:str = os.path.join('data\pegasus-samsum-model') 
+#     tokenizer_path:str = os.path.join('data\tokenizer')
 
 class Prediction:
-    def __init__(self, config: PredictionConfig):
-        self.config = config
+    def __init__(self):
+        pass
 
     def predict(self, text):
-        tokenizer = AutoTokenizer.from_pretrained(self.config.tokenizer_path)
+        model_path=os.path.join('data/pegasus-samsum-model')
+        tokenizer_path=os.path.join('data/tokenizer') 
+
+        tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
         gen_kwargs = {"length_penalty": 0.8, "num_beams":8, "max_length": 128}
-        model = pipeline('summarization', model=self.config.model_path, tokenizer=tokenizer)
+        model = pipeline('summarization', model=model_path, tokenizer=tokenizer)
 
         print("Dialogue:")
         print(text)
