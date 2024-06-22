@@ -22,14 +22,14 @@ This Text Summarizer project aims to generate concise and coherent summaries of 
 
 ### Installation
 
-1. **Clone the Repository**:
+1. Clone the Repository:
     ```bash
     git clone https://github.com/yourusername/text-summarizer.git
     cd text-summarizer
     ```
     
 
-3. **Create a virtual environment and activate it:
+3. Create a virtual environment and activate it:
     ```bash
     python -m venv venv
     source venv/bin/activate
