@@ -22,41 +22,49 @@ This Text Summarizer project aims to generate concise and coherent summaries of 
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the Repository**:
+    ```bash
     git clone https://github.com/yourusername/text-summarizer.git
     cd text-summarizer
+    ```
     
 
-2. Create a virtual environment and activate it:
+3. **Create a virtual environment and activate it:
+    ```bash
     python -m venv venv
-    source venv/bin/activate  (On Windows use `venv\Scripts\activate`)
-    
+    source venv/bin/activate
+     ```
 
-3. Install the required packages:
-    pip install -r requirements.txt
-    
+5. Install the required packages:
+    ```bash
+    pip install -r requirements.txt`
+     ```
 
-4. Set up the project structure and download the dataset:
+7. Set up the project structure and download the dataset:
+    ```bash
     python src/data_ingestion.py
-    
+     ```
 
-5. Transform the data:
-    python src/data_transformation.py
+9. Transform the data:
+    ```bash
+   python src/data_transformation.py
+     ```
     
-
-6. Train the model:
+11. Train the model:
+    ```bash
     python src/model_trainer.py
-    
+     ```
 
-7. Run the Flask web application:
+13. Run the Flask web application:
+    ```bash
     python app.py
-    
+     ```
 
 ## Usage
 
 To use the web application, follow these steps:
 
-1. Navigate to the URL provided by the Flask app, typically http://0.0.0.0:5000.
+1. Navigate to the URL provided by the Flask app, typically `http://0.0.0.0:5000`.
 2. Enter the dialogue text you want to summarize in the input field.
 3. Click the "Summarize" button to get the summary.
 
